@@ -39,3 +39,12 @@ footer {
   max-width: 960px;
   margin: 0 auto;
 }
+
+.not-found {
+  text-align: center;
+}
+
+.not-found a {
+  color: #4979ff;
+  text-decoration: underline;
+}
