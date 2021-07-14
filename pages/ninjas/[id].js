@@ -23,7 +23,22 @@ export const getStaticProps = async (context) => {
   };
 };
 
+// export const getServerSideProps = async (context) => {
+//   const ninja = await fetch(
+//     `https://jsonplaceholder.typicode.com/users/${context.query.id}`
+//   ).then((res) => res.json());
+
+//   return {
+//     props: {
+//       ninja,
+//     },
+//   };
+// };
+
 const NinjaDetail = (props) => {
+  if (Object.keys(props).length === 0) {
+    return <div>loading...</div>;
+  }
   const { ninja } = props;
   const { name, email, website, address } = ninja;
 
