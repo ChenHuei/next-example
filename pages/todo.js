@@ -1,9 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import client from "../apollo-client";
+import { initializeApollo } from "../lib/apolloClient";
 import Head from "next/head";
 
 const LIST_QUERY = gql`
-  query {
+  query queryList {
     list {
       title
     }
@@ -11,25 +11,24 @@ const LIST_QUERY = gql`
 `;
 
 export const getStaticProps = async () => {
-  const { data } = await client.query({
+  const apolloClient = initializeApollo();
+  await apolloClient.query({
     query: LIST_QUERY,
   });
 
   return {
     props: {
-      data: data.list.map((item) => ({
-        ...item,
-        title: `server ${item.title}`,
-      })),
+      initialApolloState: apolloClient.cache.extract(),
     },
+    revalidate: 1,
   };
 };
 
 const Todo = (props) => {
   /* client */
-  // const { loading, data } = useQuery(LIST_QUERY);
+  const { loading, data } = useQuery(LIST_QUERY);
 
-  // if (loading) return <p>Loading ...</p>;
+  if (loading) return <p>Loading ...</p>;
 
   return (
     <>
@@ -40,13 +39,13 @@ const Todo = (props) => {
       <div>
         <h1>Todo</h1>
         {/* server */}
-        {props.data.map((item) => (
+        {props.initialApolloState.ROOT_QUERY.list.map((item) => (
           <p key={item.title}>{item.title}</p>
         ))}
         {/* client */}
-        {/* {data.list.map((item) => (
+        {data.list.map((item) => (
           <p key={item.title}>{item.title}</p>
-        ))} */}
+        ))}
       </div>
     </>
   );
