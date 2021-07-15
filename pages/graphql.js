@@ -24,7 +24,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const Todo = (props) => {
+const GraphQL = (props) => {
   /* client */
   const { loading, data } = useQuery(LIST_QUERY);
 
@@ -33,11 +33,11 @@ const Todo = (props) => {
   return (
     <>
       <Head>
-        <title>Ninja List | Todo</title>
+        <title>Ninja List | GraphQL</title>
         <meta name="keywords" content="ninjas" />
       </Head>
       <div>
-        <h1>Todo</h1>
+        <h1>GraphQL</h1>
         {/* server */}
         {props.initialApolloState.ROOT_QUERY.list.map((item) => (
           <p key={item.title}>{item.title}</p>
@@ -51,4 +51,4 @@ const Todo = (props) => {
   );
 };
 
-export default Todo;
+export default GraphQL;
